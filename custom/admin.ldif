@@ -1,0 +1,36 @@
+version: 1
+
+dn: ou=admin,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: admin
+
+dn: cn=minio_read,ou=admin,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: posixAccount
+objectClass: simpleSecurityObject
+objectClass: top
+cn: minio_read
+gidNumber: 1000
+homeDirectory: /home/minio_read
+sn: minio_read
+uid: minio_read
+uidNumber: 30008
+userPassword:: {{password.ldap.minio.read}}
+
+dn: cn=postgres_read,ou=admin,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: posixAccount
+objectClass: simpleSecurityObject
+objectClass: top
+cn: postgres_read
+gidNumber: 1000
+homeDirectory: /home/postgres_read
+sn: postgres_read
+uid: postgres_read
+uidNumber: 10001
+userPassword:: {{password.ldap.postgres.read}}

@@ -1,0 +1,19 @@
+version: 1
+
+dn: dc=rabbitmq,dc=com
+objectClass: dcObject
+objectClass: organization
+objectClass: top
+dc: rabbitmq
+o: rabbitmq
+
+dn: ou=users,dc=rabbitmq,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: users
+
+dn: cn=admins,dc=rabbitmq,dc=com
+objectClass: groupOfUniqueNames
+objectClass: top
+cn: admins
+uniqueMember: 

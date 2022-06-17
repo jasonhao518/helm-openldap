@@ -1,0 +1,38 @@
+version: 1
+
+dn: dc=postgres,dc=com
+objectClass: dcObject
+objectClass: organization
+objectClass: top
+dc: postgres
+o: postgres database
+
+dn: cn=grafana,dc=postgres,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: posixAccount
+objectClass: simpleSecurityObject
+objectClass: top
+cn: grafana
+gidNumber: 1000
+homeDirectory: /home/grafana
+sn: grafana
+uid: grafana
+uidNumber: 10003
+userPassword:: {{password.postgres.grafana}}
+
+dn: cn=keycloak,dc=postgres,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: posixAccount
+objectClass: simpleSecurityObject
+objectClass: top
+cn: keycloak
+gidNumber: 1000
+homeDirectory: /home/keycloak
+sn: keycloak
+uid: keycloak
+uidNumber: 10002
+userPassword:: {{password.postgres.keycloak}}

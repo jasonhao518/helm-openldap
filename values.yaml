@@ -5,6 +5,18 @@
 # Global Docker image parameters
 # Please, note that this will override the image parameters, including dependencies, configured to use the global value
 # Current available global Docker image parameters: imageRegistry, imagePullSecrets and storageClass
+password:
+  postgres:
+    grafana: ""
+    keycloak: ""
+  ldap:
+    minio:
+      read: ""
+      write: ""
+    postgres:
+      read: ""
+      write: ""
+
 global:
   imageRegistry: ""
   ## E.g.
@@ -86,7 +98,7 @@ service:
   ##
   externalIPs: []
 
-  #loadBalancerIP: 
+  #loadBalancerIP:
   #loadBalancerSourceRanges: []
   type: ClusterIP
   sessionAffinity: None
@@ -121,7 +133,8 @@ env:
     # Predefine users here
 
 # Custom files with provided contents to be added in container.
-customFileSets: []
+customLdifFiles: true
+customFileSets: true
 #- name: fileset1
 #  targetPath: /container/service/slapd/assets/config/bootstrap/ldif
 #  files:
@@ -133,7 +146,7 @@ customFileSets: []
 #      olcModuleLoad: memberof
 
 replication:
-  enabled: true    
+  enabled: true
   # Enter the name of your cluster, defaults to "cluster.local"
   clusterName: "cluster.local"
   retry: 60
@@ -193,7 +206,7 @@ containerSecurityContext:
   runAsUser: 1001
   runAsNonRoot: true
 
-## @param existingConfigmap The name of an existing ConfigMap with your custom configuration for OPENLDAP 
+## @param existingConfigmap The name of an existing ConfigMap with your custom configuration for OPENLDAP
 ##
 existingConfigmap:
 ## @param command Override default container command (useful when using custom images)
@@ -431,4 +444,3 @@ phpldapadmin:
     ## Ingress Host
     hosts:
     - phpldapadmin.example
-     

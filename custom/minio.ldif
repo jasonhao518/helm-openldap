@@ -1,0 +1,20 @@
+version: 1
+
+dn: dc=minio,dc=com
+objectClass: dcObject
+objectClass: organization
+objectClass: top
+dc: minio
+o: minio
+
+
+dn: ou=users,dc=minio,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: users
+
+dn: cn=admins,dc=minio,dc=com
+objectClass: groupOfUniqueNames
+objectClass: top
+cn: admins
+uniqueMember:

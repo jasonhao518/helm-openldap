@@ -1,4 +1,3 @@
-{{- range .Values.customFileSets }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -12,9 +11,5 @@ metadata:
 {{ toYaml $.Values.extraLabels | indent 4 }}
 {{- end }}
 data:
-{{- range .files }}
-{{ .filename | indent 2}}: |
-{{ .content | indent 4 }}
-{{- end}}
+  {{- (.Files.Glob "bootstrap/**.ldif").AsConfig | nindent 2 }}
 ---
-{{- end }}
