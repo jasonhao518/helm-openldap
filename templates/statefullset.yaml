@@ -20,7 +20,7 @@ spec:
       app.kubernetes.io/component: {{ template "openldap.fullname" . }}
   serviceName: {{ template "openldap.fullname" . }}-headless
   {{- if .Values.updateStrategy }}
-  updateStrategy: 
+  updateStrategy:
 {{ toYaml .Values.updateStrategy | nindent 4 }}
   {{- end }}
   template:
@@ -40,7 +40,7 @@ spec:
       initContainers:
       {{- if .Values.initContainers }}
         {{- include "common.tplvalues.render" (dict "value" .Values.initContainers "context" $) | nindent 8 }}
-      {{- end }} 
+      {{- end }}
       {{- if .Values.customTLS.enabled }}
         - name: init-chmod-secret
           image: {{ include "openldap.initContainerImage" . }}
@@ -73,7 +73,7 @@ spec:
               mountPath: bar
       {{- end }}
       {{- /*
- serviceAccountName: {{ template "openldap.serviceAccountName" . }} 
+ serviceAccountName: {{ template "openldap.serviceAccountName" . }}
 */ -}}
       {{- include "openldap.imagePullSecrets" . | nindent 6 }}
       {{- if .Values.hostAliases }}
@@ -103,9 +103,7 @@ spec:
           args:
             - -l
             - {{ .Values.logLevel }}
-          {{- if or .Values.customLdifFiles .Values.customFileSets }}
             - --copy-service
-          {{- end }}
           {{- if .Values.containerSecurityContext.enabled }}
           securityContext: {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
           {{- end }}
@@ -198,16 +196,11 @@ spec:
             - name: data
               mountPath: /container/service/slapd/assets/certs
 {{- end }}
-{{- if .Values.customLdifFiles }}
             - name: custom-ldif-files
               mountPath: /container/service/slapd/assets/config/bootstrap/ldif/custom
-{{- end }}
-{{- range .Values.customFileSets }}
-{{- $fs := . }}
-{{- range .files }}
-            - name: {{ $fs.name }}
-              mountPath: {{ $fs.targetPath }}/{{ .filename }}
-              subPath: {{ .filename }}
+            - name: bootstrap-files
+              mountPath: /container/service/slapd/assets/config/bootstrap/ldif
+
 {{- end }}
 {{- end }}
 {{- if .Values.extraVolumeMounts }}
@@ -224,11 +217,13 @@ spec:
             claimName: {{ .Values.persistence.existingClaim }}
 {{- end }}
 {{- end }}
-{{- if .Values.customLdifFiles }}
         - name: custom-ldif-files
           configMap:
             name: {{ template "openldap.fullname" . }}-customldif
-{{- end }}
+        - name: bootstrap-files
+          configMap:
+            name: {{ template "openldap.fullname" . }}-bootstrap
+
 {{- if .Values.customTLS.enabled }}
         - name: secret-certs
           secret:
@@ -236,11 +231,6 @@ spec:
         - name: certs
           emptyDir:
             medium: Memory
-{{- end }}
-{{- range .Values.customFileSets }}
-        - name: {{ .name }}
-          configMap:
-            name: {{ template "openldap.fullname" $ }}-fs-{{ .name }}
 {{- end }}
         {{- if .Values.extraVolumes }}
         {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumes "context" $) | nindent 8 }}

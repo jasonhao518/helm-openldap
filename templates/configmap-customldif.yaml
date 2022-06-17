@@ -11,4 +11,4 @@ metadata:
 {{ toYaml .Values.extraLabels | indent 4 }}
 {{- end }}
 data:
-  {{- (.Files.Glob "bootstrap/**.ldif").AsConfig | nindent 2 }}
+  {{- (.Files.Glob "custom/**.ldif").AsConfig | nindent 2 }}
