@@ -201,8 +201,6 @@ spec:
             - name: bootstrap-files
               mountPath: /container/service/slapd/assets/config/bootstrap/ldif
 
-{{- end }}
-{{- end }}
 {{- if .Values.extraVolumeMounts }}
 {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" $) | nindent 12 }}
 {{- end }}
